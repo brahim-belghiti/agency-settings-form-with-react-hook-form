@@ -1,76 +1,74 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import { useEffect, useState } from "react";
-import Input from "./Input";
+import { useNavigate } from "react-router-dom";
+import { TForm } from "../../../types/form.types";
+import ClientServices from "../../../services/client.services";
 
-type TPayload = {
-  password: string;
-  pricePerKg: string;
-  currency: string;
-  token: string | null;
-};
+const validationSchema = Yup.object().shape({
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+      "Must contain at least one letter and one number"
+    ),
+  pricePerKg: Yup.number()
+    .required("Price is required")
+    .min(0, "Price must be at least 0"),
+  currency: Yup.string().required("Currency is required"),
+  token: Yup.string().required("Token is required"),
+});
 
-function Form() {
-  const [token, setToken] = useState<string | null>("");
+function Formik() {
+  const navigate = useNavigate();
+  const [token, setToken] = useState<string>("");
   useEffect(() => {
-    // Get the token from the URL
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const token = urlSearchParams.get("token") || null;
+    const token = urlSearchParams.get("token") || "";
     setToken(token);
-
-    // Now you can use the token as needed (e.g., store it in state, send it with form submission, etc.)
-    // console.log("Token:", token);
   }, []);
-  console.log("🚀 ~ file: index.tsx:13 ~ Form ~ token:", token);
 
-  const APIBASE = import.meta.env.VITE_API_URL;
-  const API = `${APIBASE}/v1/app/set-settings`;
-  const [password, setPassword] = useState("");
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  console.log("🚀 ~ file: index.tsx:19 ~ Form ~ isSuccess:", isSuccess);
-  const payload: TPayload = {
-    password: password,
-    pricePerKg: "0.5",
-    currency: "EUR",
-    token: token,
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TForm>({
+    resolver: yupResolver(validationSchema) as any,
+  });
 
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    fetch(API, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data); // Log the response data for debugging purposes
-        if (data.isSetup === true) {
-          setIsSuccess(true);
-        } else {
-          setIsSuccess(false);
-        }
-      })
-      .catch((error) => console.log(error));
+  const onSubmit = async (data: TForm) => {
+    const response = await ClientServices.setSettings({
+      password: data.password,
+      pricePerKg: 12,
+      currency: "EUR",
+      token: token,
+    });
+    if (response.isSetup === true) {
+      navigate("/success");
+    }
   };
 
   return (
-    <form onSubmit={(e) => submitForm(e)} className="flex flex-col gap-4">
-      <Input
-        label="password"
-        type="text"
-        placeholder="Entrez votre mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <input
+        type="password"
+        placeholder="Password"
+        {...register("password")}
+        className="border-2 border-gray-300 rounded-md p-2 w-full"
       />
-      <Input
-        label="cofirm password"
-        type="text"
-        placeholder="Entrez votre mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <input type="number" placeholder="Price" {...register("pricePerKg")} />
+      <select {...register("currency")}>
+        <option value="MAD">MAD</option>
+        <option value="EUR">EUR</option>
+        <option value="USD">USD</option>
+      </select>
+      <input type="hidden" value={token} {...register("token")} />
 
+      {errors.password && (
+        <span className="text-red-500 text-sm">{errors.password.message}</span>
+      )}
       <button
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded-md"
@@ -81,4 +79,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default Formik;
