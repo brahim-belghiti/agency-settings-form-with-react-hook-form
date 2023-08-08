@@ -41,7 +41,7 @@ function Form() {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="lg:w-6/12 px-2 flex flex-col gap-4"
+        className="lg:w-6/12 px-8 w-full flex flex-col gap-4"
       >
         <div className="w-full relative ">
           <button
