@@ -16,6 +16,6 @@ export const validationSchema = Yup.object().shape({
     ),
   pricePerKg: Yup.number()
     .required("Le prix est obligatoire")
-    .min(0, "Le prix doit être supérieur à 0"),
+    .min(0, "Le prix doit être supérieur à 0").typeError("Le prix doit être un nombre"),
   currency: Yup.string().required("La devise est obligatoire"),
 });

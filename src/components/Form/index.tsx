@@ -23,9 +23,6 @@ function Form() {
     formState: { errors },
   } = useForm<TForm>({
     resolver: yupResolver(validationSchema),
-    defaultValues: {
-      pricePerKg: 0,
-    },
   });
 
   const onSubmit = async (data: TForm) => {
@@ -114,10 +111,18 @@ function Form() {
           {...register("currency")}
           className="border-2 border-gray-300 rounded-md p-4 w-full bg-white focus:ring-2 focus:ring-orange-400 focus:outline-none"
         >
-          <option className="text-lg" value="">Choisir une devise</option>
-          <option className="bg-white text-lg" value="MAD">MAD</option>
-          <option className="bg-white text-lg" value="EUR">EUR</option>
-          <option className="bg-white text-lg" value="USD">USD</option>
+          <option className="text-lg" value="">
+            Choisir une devise
+          </option>
+          <option className="bg-white text-lg" value="MAD">
+            MAD
+          </option>
+          <option className="bg-white text-lg" value="EUR">
+            EUR
+          </option>
+          <option className="bg-white text-lg" value="USD">
+            USD
+          </option>
         </select>
         {errors.currency && (
           <span className="text-red-500 text-sm">
