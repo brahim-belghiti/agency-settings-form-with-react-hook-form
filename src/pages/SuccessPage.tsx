@@ -17,7 +17,7 @@ function SuccessPage() {
               alt="logo"
               className="w-52 h mx-auto mb-8"
             />
-            <p className="text-2xl font-meduim text-secondary mb-8 lg:px-8 text-center">
+            <p className="text-xl lg:text-2xl font-meduim text-secondary mb-8 lg:px-8 text-center">
               Votre compte est prêt pour l’utilisation ! veuillez télécharger
               l'application <span className="text-primary">FIAMANE PRO</span> et
               commencer votre activité
@@ -25,25 +25,25 @@ function SuccessPage() {
           </div>
           <div className="flex flex-col justify-center items-center gap-8">
             <div className="w-full flex flex-col gap-4">
-              <h3 className="text-3xl flex gap-2 items-center">
+              <h3 className="text-2xl lg:text-3xl flex gap-2 items-center">
                 <BsTablet className="inline-block" />
                 Tablette
               </h3>
               <div className="flex flex-col lg:flex-row gap-8">
                 <DownloadLink
-                  link="https://play.google.com/store/apps/details?id=com.fiamane.fiamanepro"
+                  link="https://play.google.com/store/apps/details?id=com.fiaman"
                   icon={<BiLogoPlayStore className="inline-block" />}
                   text="Play store"
                 />
                 <DownloadLink
-                  link="https://apps.apple.com/us/app/fiamane-pro/id1586787349"
+                  link="#"
                   icon={<GrAppleAppStore className="inline-block" />}
                   text="App store"
                 />
               </div>
             </div>
             <div className="w-full flex flex-col gap-4">
-              <h3 className="text-3xl flex gap-2 items-center">
+              <h3 className="text-2xl lg:text-3xl flex gap-2 items-center">
                 <RiComputerLine className="inline-block" />
                 PC
               </h3>

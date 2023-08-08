@@ -5,8 +5,8 @@ function ErrorPage() {
     <Layout>
       <div className="flex flex-col items-center justify-center gap-8">
         <div className="flex flex-col items-center justify-center gap-2">
-          <p className="text-3xl">🤖 Une erreur est survenue,</p>
-          <p className="text-3xl">la page que vous cherchez n'existe pas</p>
+          <p className="text-xl lg:text-3xl">🤖 Une erreur est survenue,</p>
+          <p className="text-xl lg:text-3xl">la page que vous cherchez n'existe pas</p>
         </div>
         <a
           href="/"
